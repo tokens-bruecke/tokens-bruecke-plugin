@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.10.0](https://github.com/tokens-bruecke/figma-plugin/compare/v2.9.4...v2.10.0) (2026-03-28)
+
+
+### Features
+
+* Add export/import docs and styles warning ([6446d2a](https://github.com/tokens-bruecke/figma-plugin/commit/6446d2ab117f6e5b9270588b886e6903505f36fe))
+* **cli:** add --oauth-token flag to support OAuth authentication ([ccbc16e](https://github.com/tokens-bruecke/figma-plugin/commit/ccbc16e931c653d4a1aa345902aada38c71a0af3))
+
+
+### Bug Fixes
+
+* import variables ([1d72235](https://github.com/tokens-bruecke/figma-plugin/commit/1d722358b5e714710df3546727fdaba41427c863))
+* **normilizeType:** return 'string' instead of 'dimension' for percentage opacity ([52085c6](https://github.com/tokens-bruecke/figma-plugin/commit/52085c63d50809f9a25a86c6fad9a26fbfd67427))
+
+
+### Miscellaneous
+
+* format CHANGELOG ([0e2e4b0](https://github.com/tokens-bruecke/figma-plugin/commit/0e2e4b0e2fe655451c36bdd7e54f2fffbfeb3a46))
+
 ## [2.11.1](https://github.com/tokens-bruecke/figma-plugin/compare/v2.11.0...v2.11.1) (2026-03-28)
 
 ### Bug Fixes
