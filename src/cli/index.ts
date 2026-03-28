@@ -1,7 +1,8 @@
 /// <reference path="../../global.d.ts" />
 
 import yargs from 'yargs';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { join, dirname } from 'path';
 import { RestAPIResolver } from './restApiResolver';
 import { getTokens } from '../common/export';
 
@@ -64,9 +65,17 @@ const argv = yargs(process.argv.slice(2))
   })
   .option('output', {
     alias: 'o',
-    description: 'Path to output file',
+    description:
+      'Path to output file or directory (when --split-by-collection)',
     type: 'string',
     demandOption: true,
+  })
+  .option('split-by-collection', {
+    alias: 's',
+    description:
+      'Write each collection as a separate .tokens.json file in the output directory',
+    type: 'boolean',
+    default: false,
   })
   .help()
   .alias('help', 'h')
@@ -84,9 +93,11 @@ if (argv.config) {
   }
 }
 
-const options = {
+const options: ExportSettingsI = {
   ...defaultConfig,
   ...config,
+  splitByCollection:
+    (config as any).splitByCollection ?? argv['split-by-collection'],
 };
 
 async function exportFigmaTokens() {
@@ -97,8 +108,23 @@ async function exportFigmaTokens() {
   );
   const tokens = await getTokens(resolver, options);
   try {
-    writeFileSync(argv.output, JSON.stringify(tokens, null, 2), 'utf-8');
-    console.log('✨ Tokens successfully written to', argv.output);
+    if (options.splitByCollection) {
+      mkdirSync(argv.output, { recursive: true });
+      for (const collectionName of Object.keys(tokens)) {
+        const safeFileName = collectionName.replace(/[/\\?%*:|"<>]/g, '-');
+        const filePath = join(argv.output, `${safeFileName}.tokens.json`);
+        writeFileSync(
+          filePath,
+          JSON.stringify(tokens[collectionName], null, 2),
+          'utf-8'
+        );
+        console.log('✨ Written', filePath);
+      }
+    } else {
+      mkdirSync(dirname(argv.output), { recursive: true });
+      writeFileSync(argv.output, JSON.stringify(tokens, null, 2), 'utf-8');
+      console.log('✨ Tokens successfully written to', argv.output);
+    }
   } catch (error) {
     console.error('🔴 Error writing to output file:', error);
     process.exit(1);

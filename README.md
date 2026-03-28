@@ -29,6 +29,7 @@ The plugin converts Figma variables into design-tokens JSON that are compatible 
     - [Use DTCG keys format](#use-dtcg-keys-format)
     - [Include `.value` string for aliases](#include-value-string-for-aliases)
     - [Include Figma metadata](#include-figma-metadata)
+    - [Split collections into separate files](#split-collections-into-separate-files)
   - [Use as cli tool](#use-as-cli-tool)
     - [Installation](#installation)
     - [Usage](#usage)
@@ -246,6 +247,15 @@ Is `off` by default. Allows you to include Figma metadata like `styleId`, `varia
 }
 ```
 
+### Split collections into separate files
+
+Is `off` by default. When enabled, each Figma variable collection is exported as its own file instead of a single merged JSON.
+
+- **Download JSON** — produces a `design.tokens.zip` archive containing one `{CollectionName}.tokens.json` per collection.
+- **CLI** — writes individual `{CollectionName}.tokens.json` files into the directory specified by `--output`.
+
+This is useful when you want to keep component-level token files separate (e.g. `button.tokens.json`, `card.tokens.json`).
+
 ---
 
 ## Use as cli tool
@@ -286,13 +296,14 @@ This will fetch figma variables and export them in `out/tokens.json`
 
 ### Options
 
-| Option          | Alias | Description                       | Required                                          |
-| --------------- | ----- | --------------------------------- | ------------------------------------------------- |
-| `--api-key`     | `-a`  | Figma personal access token (PAT) | One of `--api-key` or `--oauth-token` is required |
-| `--oauth-token` | `-t`  | Figma OAuth token                 | One of `--api-key` or `--oauth-token` is required |
-| `--file-key`    | `-f`  | Figma file key                    | Yes                                               |
-| `--output`      | `-o`  | Path to output file               | Yes                                               |
-| `--config`      | `-c`  | Path to configuration file        | No                                                |
+| Option                  | Alias | Description                                                           | Required                                          |
+| ----------------------- | ----- | --------------------------------------------------------------------- | ------------------------------------------------- |
+| `--api-key`             | `-a`  | Figma personal access token (PAT)                                     | One of `--api-key` or `--oauth-token` is required |
+| `--oauth-token`         | `-t`  | Figma OAuth token                                                     | One of `--api-key` or `--oauth-token` is required |
+| `--file-key`            | `-f`  | Figma file key                                                        | Yes                                               |
+| `--output`              | `-o`  | Path to output file, or output directory when `--split-by-collection` | Yes                                               |
+| `--config`              | `-c`  | Path to configuration file                                            | No                                                |
+| `--split-by-collection` | `-s`  | Write each collection as a separate `.tokens.json` file in `--output` | No                                                |
 
 > [!TIP]
 > For automated pipelines, `--oauth-token` is preferred over `--api-key`. Personal Access Tokens expire every 90 days and require manual renewal, while OAuth tokens support programmatic refresh for indefinite access.
@@ -317,7 +328,8 @@ You can use a JSON configuration file to specify the export options for the CLI.
   "includeFigmaMetaData": false, // Include Figma metadata like styleId, variableId, etc.
   "usePercentageOpacity": false, // Export opacity as percentage (10%) instead of decimal (0.1)
   "colorMode": "hex", // "hex"  | "rgba-object"  | "rgba-css"  | "hsla-object"  | "hsla-css";
-  "storeStyleInCollection": "none" // Name of one of your collection or "none" to keep them separated
+  "storeStyleInCollection": "none", // Name of one of your collection or "none" to keep them separated
+  "splitByCollection": false // Write each collection as a separate .tokens.json file
 }
 ```
 
