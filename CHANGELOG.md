@@ -2,10 +2,9 @@
 
 ## [2.11.1](https://github.com/tokens-bruecke/figma-plugin/compare/v2.11.0...v2.11.1) (2026-03-28)
 
-
 ### Bug Fixes
 
-* **normilizeType:** return `string` instead of `dimension` for percentage opacity
+- **normilizeType:** return `string` instead of `dimension` for percentage opacity
 
 ## [2.11.0](https://github.com/tokens-bruecke/figma-plugin/compare/v2.10.0...v2.11.0) (2026-03-28)
 
