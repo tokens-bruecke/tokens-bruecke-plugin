@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.1](https://github.com/tokens-bruecke/figma-plugin/compare/v2.11.0...v2.11.1) (2026-03-28)
+
+
+### Miscellaneous
+
+* bump version to 2.11.2 ([9983f6a](https://github.com/tokens-bruecke/figma-plugin/commit/9983f6a2939207c85f3f289aa44d38ae64a1f4d1))
+
 ## [2.11.0](https://github.com/tokens-bruecke/figma-plugin/compare/v2.10.0...v2.11.0) (2026-03-28)
 
 
