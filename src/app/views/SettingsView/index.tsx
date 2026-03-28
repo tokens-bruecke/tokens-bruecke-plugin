@@ -266,6 +266,7 @@ export const SettingsView = (props: ViewProps) => {
   // Receive tokens from figma controller
   useEffect(() => {
     window.onmessage = async (event) => {
+      if (!event.data?.pluginMessage) return;
       const { type, tokens, role, server, result } = event.data
         .pluginMessage as TokensMessageI;
 
@@ -277,7 +278,7 @@ export const SettingsView = (props: ViewProps) => {
 
         if (role === 'download') {
           // console.log("tokens download", tokens);
-          downloadTokensFile(tokens);
+          downloadTokensFile(tokens, JSONsettingsConfig.splitByCollection);
         }
 
         if (role === 'push') {
@@ -554,6 +555,23 @@ export const SettingsView = (props: ViewProps) => {
           </Stack>
         </Panel>
       )}
+
+      <Panel>
+        <Stack hasLeftRightPadding>
+          <Toggle
+            id="split-by-collection"
+            checked={JSONsettingsConfig.splitByCollection}
+            onChange={(checked: boolean) => {
+              setJSONsettingsConfig({
+                ...JSONsettingsConfig,
+                splitByCollection: checked,
+              });
+            }}
+          >
+            <Text>Split collections into separate files</Text>
+          </Toggle>
+        </Stack>
+      </Panel>
 
       <Panel>
         <Stack>

@@ -33,12 +33,14 @@
   "dependencies": {
     "decimal.js": "^10.5.0",
     "figma-api": "2.0.1-beta",
+    "jszip": "^3.10.1",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.100.0",
     "@figma/rest-api-spec": "^0.25.0",
     "@octokit/core": "^5.0.0",
+    "@types/jszip": "^3.4.1",
     "@types/node": "^22.7.4",
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.11",
@@ -51,11 +53,11 @@
     "html-inline-script-webpack-plugin": "^3.2.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.7.2",
-    "react-figma-ui": "git+https://git@github.com/PavelLaptev/react-figma-ui.git#4c8d20dbd911c0008fd4d0b20280f14404f186e7",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-dev-utils": "^12.0.1",
     "react-dom": "^18.2.0",
+    "react-figma-ui": "git+https://git@github.com/PavelLaptev/react-figma-ui.git#4c8d20dbd911c0008fd4d0b20280f14404f186e7",
     "sass": "^1.57.1",
     "sass-loader": "^13.2.0",
     "style-loader": "^3.3.1",

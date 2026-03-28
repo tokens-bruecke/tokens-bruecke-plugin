@@ -94,6 +94,7 @@ interface ExportSettingsI {
   storeStyleInCollection: string;
   includeFigmaMetaData: boolean;
   usePercentageOpacity: boolean;
+  splitByCollection: boolean;
 }
 
 interface ServerSettingsI {

@@ -52,6 +52,7 @@ const Container = () => {
     includeValueStringKeyToAlias: false,
     includeFigmaMetaData: false,
     usePercentageOpacity: false,
+    splitByCollection: false,
     servers: {
       jsonbin: {
         isEnabled: false,
@@ -162,7 +163,12 @@ const Container = () => {
       // check storage on load
       if (type === 'storageConfig') {
         if (storageConfig) {
-          setJSONsettingsConfig(storageConfig);
+          setJSONsettingsConfig((prev) => ({
+            ...prev,
+            ...storageConfig,
+            // Ensure new properties have defaults for backward compatibility
+            splitByCollection: storageConfig.splitByCollection ?? false,
+          }));
         }
       }
     };

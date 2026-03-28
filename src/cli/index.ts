@@ -31,6 +31,7 @@ const defaultConfig: ExportSettingsI = {
   includeFigmaMetaData: false,
   useDTCGKeys: false,
   usePercentageOpacity: false,
+  splitByCollection: false,
 };
 
 const argv = yargs(process.argv.slice(2))
