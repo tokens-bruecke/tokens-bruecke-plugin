@@ -36,9 +36,19 @@ const defaultConfig: ExportSettingsI = {
 const argv = yargs(process.argv.slice(2))
   .option('api-key', {
     alias: 'a',
-    description: 'Figma API key',
+    description: 'Figma personal access token (PAT)',
     type: 'string',
-    demandOption: true,
+  })
+  .option('oauth-token', {
+    alias: 't',
+    description: 'Figma OAuth token',
+    type: 'string',
+  })
+  .check((args) => {
+    if (!args['api-key'] && !args['oauth-token']) {
+      throw new Error('Either --api-key or --oauth-token must be provided');
+    }
+    return true;
   })
   .option('file-key', {
     alias: 'f',
@@ -79,7 +89,11 @@ const options = {
 };
 
 async function exportFigmaTokens() {
-  const resolver = new RestAPIResolver(argv.fileKey, argv.apiKey);
+  const resolver = new RestAPIResolver(
+    argv.fileKey,
+    argv.apiKey,
+    argv.oauthToken
+  );
   const tokens = await getTokens(resolver, options);
   try {
     writeFileSync(argv.output, JSON.stringify(tokens, null, 2), 'utf-8');

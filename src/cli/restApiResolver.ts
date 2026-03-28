@@ -11,9 +11,21 @@ export class RestAPIResolver implements IResolver {
 
   private fetchLocalVariablesPromise: Promise<void> | null = null;
 
-  constructor(fileKey: string, token: string) {
+  constructor(
+    fileKey: string,
+    personalAccessToken?: string,
+    oAuthToken?: string
+  ) {
     this.fileKey = fileKey;
-    this.api = new Api({ personalAccessToken: token });
+    if (oAuthToken) {
+      this.api = new Api({ oAuthToken });
+    } else if (personalAccessToken) {
+      this.api = new Api({ personalAccessToken });
+    } else {
+      throw new Error(
+        'Either personalAccessToken or oAuthToken must be provided'
+      );
+    }
     this.styles = [];
   }
 
@@ -145,7 +157,9 @@ export class RestAPIResolver implements IResolver {
     return this.variables[variableId] || null;
   }
 
-  async getVariableCollectionById(id: string): Promise<VariableCollection | null> {
+  async getVariableCollectionById(
+    id: string
+  ): Promise<VariableCollection | null> {
     return this.variableCollections[id] || null;
   }
 

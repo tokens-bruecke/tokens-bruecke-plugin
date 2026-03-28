@@ -168,7 +168,7 @@ Is `off` by default. When enabled, opacity values will be exported as percentage
 // With percentage format
 {
   "opacity": {
-    "type": "dimension",
+    "type": "string",
     "value": "10%"
   }
 }
@@ -275,14 +275,29 @@ tokens-bruecke [options]
 For example:
 
 ```bash
+# Using a Personal Access Token (PAT)
 tokens-bruecke --api-key $FIGMA_TOKEN --file-key $FIGMA_FILE --config config.json --output out/tokens.json
+
+# Using an OAuth token
+tokens-bruecke --oauth-token $FIGMA_OAUTH_TOKEN --file-key $FIGMA_FILE --config config.json --output out/tokens.json
 ```
 
 This will fetch figma variables and export them in `out/tokens.json`
 
 ### Options
 
-Same options than the plugin are available throught the usage of a json file.
+| Option          | Alias | Description                       | Required                                          |
+| --------------- | ----- | --------------------------------- | ------------------------------------------------- |
+| `--api-key`     | `-a`  | Figma personal access token (PAT) | One of `--api-key` or `--oauth-token` is required |
+| `--oauth-token` | `-t`  | Figma OAuth token                 | One of `--api-key` or `--oauth-token` is required |
+| `--file-key`    | `-f`  | Figma file key                    | Yes                                               |
+| `--output`      | `-o`  | Path to output file               | Yes                                               |
+| `--config`      | `-c`  | Path to configuration file        | No                                                |
+
+> [!TIP]
+> For automated pipelines, `--oauth-token` is preferred over `--api-key`. Personal Access Tokens expire every 90 days and require manual renewal, while OAuth tokens support programmatic refresh for indefinite access.
+
+Other export settings are available through a JSON configuration file (see [CLI Configuration File](#cli-configuration-file) below).
 
 ### CLI Configuration File
 
@@ -691,7 +706,7 @@ In order to validate types, the plugin uses the [Design Tokens types](https://gi
 In order to convert `FONT-WEIGHT` and `OPACITY` types into valid values you should specify thme as scopes in the Figma variables. The plugin will read the first scope and convert it into the valid value. If there are multiple scopes, the plugin will take the first one.
 
 - `FONT_WEIGHT` scope will be converted into `string` type.
-- `OPACITY` scope will be converted into `number` type (or `dimension` with `%` if "Use percentage for opacity" is enabled).
+- `OPACITY` scope will be converted into `number` type (or `string` with `%` if "Use percentage for opacity" is enabled).
 
 ---
 

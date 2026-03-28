@@ -1,53 +1,52 @@
 # Changelog
 
-## [2.9.4](https://github.com/tokens-bruecke/figma-plugin/compare/v2.9.3...v2.9.4) (2026-01-13)
-
-
-### Bug Fixes
-
-* hardcoded style colors into variables ([403c4a5](https://github.com/tokens-bruecke/figma-plugin/commit/403c4a582da3cd7f1d3a4af3654660b84275c9dc))
-
-## [2.9.3](https://github.com/tokens-bruecke/figma-plugin/compare/v2.9.2...v2.9.3) (2025-12-06)
-
-
-### Bug Fixes
-
-* Remove pnpm version and install options in release workflow ([62ea535](https://github.com/tokens-bruecke/figma-plugin/commit/62ea535c12639ab21b056eb08209fa1115d33920))
-
-## [2.9.2](https://github.com/tokens-bruecke/figma-plugin/compare/v2.9.1...v2.9.2) (2025-12-06)
-
-
-### Bug Fixes
-
-* Add zip existence check and force artifact upload ([f9d9b4b](https://github.com/tokens-bruecke/figma-plugin/commit/f9d9b4b8aa7b79cb858140fc0fed2e24eca1faca))
-
-## [2.9.1](https://github.com/tokens-bruecke/figma-plugin/compare/v2.9.0...v2.9.1) (2025-12-06)
-
-
-### Bug Fixes
-
-* Add Release Please configuration files ([dcedd19](https://github.com/tokens-bruecke/figma-plugin/commit/dcedd19dc186bb97bb770af7701be5c8f821f861))
-
-## [2.7.0](https://github.com/tokens-bruecke/figma-plugin/compare/v2.6.2...v2.7.0) (2025-09-21)
-
+## [2.11.0](https://github.com/tokens-bruecke/figma-plugin/compare/v2.10.0...v2.11.0) (2026-03-28)
 
 ### Features
 
-* Add direct new GitHub token URL with "repo" scope ([f2f68f9](https://github.com/tokens-bruecke/figma-plugin/commit/f2f68f91bb20ded52cb193391bf4eeaca0e6d303))
-* Add direct new GitHub token URL with "repo" scope ([aea4d98](https://github.com/tokens-bruecke/figma-plugin/commit/aea4d983b99892f28040b919bc79b161fe4e4aa2))
+- **cli:** add `--oauth-token` flag to support OAuth authentication ([#65](https://github.com/tokens-bruecke/figma-plugin/issues/65))
 
+## [2.9.4](https://github.com/tokens-bruecke/figma-plugin/compare/v2.9.3...v2.9.4) (2026-01-13)
 
 ### Bug Fixes
 
-* file path must be URL-encoded for Gitlab API ([369d43f](https://github.com/tokens-bruecke/figma-plugin/commit/369d43fd01d04ea44a810ebcada07a97c5924072))
-* URL encode file path for Gitlab API ([6a590b1](https://github.com/tokens-bruecke/figma-plugin/commit/6a590b15966d4b4188d210d6d8a7dcd4ab07884f))
+- hardcoded style colors into variables ([403c4a5](https://github.com/tokens-bruecke/figma-plugin/commit/403c4a582da3cd7f1d3a4af3654660b84275c9dc))
+
+## [2.9.3](https://github.com/tokens-bruecke/figma-plugin/compare/v2.9.2...v2.9.3) (2025-12-06)
+
+### Bug Fixes
+
+- Remove pnpm version and install options in release workflow ([62ea535](https://github.com/tokens-bruecke/figma-plugin/commit/62ea535c12639ab21b056eb08209fa1115d33920))
+
+## [2.9.2](https://github.com/tokens-bruecke/figma-plugin/compare/v2.9.1...v2.9.2) (2025-12-06)
+
+### Bug Fixes
+
+- Add zip existence check and force artifact upload ([f9d9b4b](https://github.com/tokens-bruecke/figma-plugin/commit/f9d9b4b8aa7b79cb858140fc0fed2e24eca1faca))
+
+## [2.9.1](https://github.com/tokens-bruecke/figma-plugin/compare/v2.9.0...v2.9.1) (2025-12-06)
+
+### Bug Fixes
+
+- Add Release Please configuration files ([dcedd19](https://github.com/tokens-bruecke/figma-plugin/commit/dcedd19dc186bb97bb770af7701be5c8f821f861))
+
+## [2.7.0](https://github.com/tokens-bruecke/figma-plugin/compare/v2.6.2...v2.7.0) (2025-09-21)
+
+### Features
+
+- Add direct new GitHub token URL with "repo" scope ([f2f68f9](https://github.com/tokens-bruecke/figma-plugin/commit/f2f68f91bb20ded52cb193391bf4eeaca0e6d303))
+- Add direct new GitHub token URL with "repo" scope ([aea4d98](https://github.com/tokens-bruecke/figma-plugin/commit/aea4d983b99892f28040b919bc79b161fe4e4aa2))
+
+### Bug Fixes
+
+- file path must be URL-encoded for Gitlab API ([369d43f](https://github.com/tokens-bruecke/figma-plugin/commit/369d43fd01d04ea44a810ebcada07a97c5924072))
+- URL encode file path for Gitlab API ([6a590b1](https://github.com/tokens-bruecke/figma-plugin/commit/6a590b15966d4b4188d210d6d8a7dcd4ab07884f))
 
 ## [2.6.2](https://github.com/tokens-bruecke/figma-plugin/compare/v2.6.1...v2.6.2) (2025-06-01)
 
-
 ### Bug Fixes
 
-* prettier and file formatting ([43bbca5](https://github.com/tokens-bruecke/figma-plugin/commit/43bbca5a922a2d5653704c56b0c2d6e1060855d2))
+- prettier and file formatting ([43bbca5](https://github.com/tokens-bruecke/figma-plugin/commit/43bbca5a922a2d5653704c56b0c2d6e1060855d2))
 
 ## [2.6.1](https://github.com/tokens-bruecke/figma-plugin/compare/v2.6.0...v2.6.1) (2025-04-17)
 
