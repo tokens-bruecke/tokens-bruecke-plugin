@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.10.1](https://github.com/tokens-bruecke/figma-plugin/compare/v2.10.0...v2.10.1) (2026-03-28)
+
+
+### Miscellaneous
+
+* remove trailing whitespace in release.yml ([a3340cc](https://github.com/tokens-bruecke/figma-plugin/commit/a3340cc815a522dcc84f40ba40dd90395c45c647))
+
 ## [2.10.0](https://github.com/tokens-bruecke/figma-plugin/compare/v2.9.4...v2.10.0) (2026-03-28)
 
 
