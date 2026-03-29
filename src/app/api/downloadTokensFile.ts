@@ -24,7 +24,11 @@ export const downloadTokensFile = async (
       const safeFileName = collectionName.replace(/[/\\?%*:|"<>]/g, '-');
       zip.file(
         `${safeFileName}.tokens.json`,
-        JSON.stringify(objectToSave[collectionName], null, 2)
+        JSON.stringify(
+          { [collectionName]: objectToSave[collectionName] },
+          null,
+          2
+        )
       );
     }
     const blob = await zip.generateAsync({ type: 'blob' });

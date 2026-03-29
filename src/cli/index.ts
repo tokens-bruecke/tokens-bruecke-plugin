@@ -115,7 +115,7 @@ async function exportFigmaTokens() {
         const filePath = join(argv.output, `${safeFileName}.tokens.json`);
         writeFileSync(
           filePath,
-          JSON.stringify(tokens[collectionName], null, 2),
+          JSON.stringify({ [collectionName]: tokens[collectionName] }, null, 2),
           'utf-8'
         );
         console.log('✨ Written', filePath);
