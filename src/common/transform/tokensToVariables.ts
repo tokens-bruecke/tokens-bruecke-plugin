@@ -54,6 +54,45 @@ const getTokenDescription = (token: any): string => {
   return '';
 };
 
+const VALID_VARIABLE_SCOPES: ReadonlyArray<VariableScope> = [
+  'ALL_SCOPES',
+  'TEXT_CONTENT',
+  'CORNER_RADIUS',
+  'WIDTH_HEIGHT',
+  'GAP',
+  'ALL_FILLS',
+  'FRAME_FILL',
+  'SHAPE_FILL',
+  'TEXT_FILL',
+  'STROKE_COLOR',
+  'STROKE_FLOAT',
+  'EFFECT_FLOAT',
+  'EFFECT_COLOR',
+  'OPACITY',
+  'FONT_FAMILY',
+  'FONT_STYLE',
+  'FONT_WEIGHT',
+  'FONT_SIZE',
+  'LINE_HEIGHT',
+  'LETTER_SPACING',
+  'PARAGRAPH_SPACING',
+  'PARAGRAPH_INDENT',
+];
+
+export const isValidVariableScope = (scope: any): scope is VariableScope => {
+  return VALID_VARIABLE_SCOPES.includes(scope);
+};
+
+/**
+ * Parses a token to extract scopes (standard format only: `scopes` key).
+ */
+export const getTokenScopes = (token: any): string[] | undefined => {
+  if (token.scopes !== undefined && Array.isArray(token.scopes)) {
+    return token.scopes;
+  }
+  return undefined;
+};
+
 /**
  * Checks if an object is a token (has value and type)
  */
@@ -220,7 +259,8 @@ const extractTokens = (
       key.startsWith('$') ||
       key === 'value' ||
       key === 'type' ||
-      key === 'description'
+      key === 'description' ||
+      key === 'scopes'
     ) {
       continue; // Skip metadata keys
     }
@@ -395,6 +435,7 @@ export const tokensToVariables = async (
           try {
             const tokenType = getTokenType(token);
             const tokenDescription = getTokenDescription(token);
+            const tokenScopes = getTokenScopes(token);
 
             if (!tokenType) {
               result.errors.push(`Token at path "${path}" is missing type`);
@@ -416,14 +457,31 @@ export const tokensToVariables = async (
                 figmaType
               );
 
-              if (tokenDescription) {
-                variable.description = tokenDescription;
-              }
-
               variableMap.set(fullPath, variable);
               result.variablesCreated++;
             } else if (isExisting) {
               result.variablesUpdated++;
+            }
+
+            if (variable) {
+              if (tokenDescription) {
+                variable.description = tokenDescription;
+              }
+
+              if (tokenScopes) {
+                const invalidScopes = tokenScopes.filter(
+                  (s) => !isValidVariableScope(s)
+                );
+                if (invalidScopes.length > 0) {
+                  result.errors.push(
+                    `Token at path "${path}" has invalid scopes: ${invalidScopes.join(', ')}`
+                  );
+                }
+                const validScopes = tokenScopes.filter(isValidVariableScope);
+                if (validScopes.length > 0) {
+                  variable.scopes = validScopes;
+                }
+              }
             }
 
             // Store for second pass (value setting)

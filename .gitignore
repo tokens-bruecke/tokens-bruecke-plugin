@@ -4,3 +4,6 @@ dist/
 build.zip
 bin/
 out/
+
+# webstorm
+.idea
