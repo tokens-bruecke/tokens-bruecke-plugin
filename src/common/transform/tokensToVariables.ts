@@ -54,20 +54,41 @@ const getTokenDescription = (token: any): string => {
   return '';
 };
 
+const VALID_VARIABLE_SCOPES: ReadonlyArray<VariableScope> = [
+  'ALL_SCOPES',
+  'TEXT_CONTENT',
+  'CORNER_RADIUS',
+  'WIDTH_HEIGHT',
+  'GAP',
+  'ALL_FILLS',
+  'FRAME_FILL',
+  'SHAPE_FILL',
+  'TEXT_FILL',
+  'STROKE_COLOR',
+  'STROKE_FLOAT',
+  'EFFECT_FLOAT',
+  'EFFECT_COLOR',
+  'OPACITY',
+  'FONT_FAMILY',
+  'FONT_STYLE',
+  'FONT_WEIGHT',
+  'FONT_SIZE',
+  'LINE_HEIGHT',
+  'LETTER_SPACING',
+  'PARAGRAPH_SPACING',
+  'PARAGRAPH_INDENT',
+];
+
+export const isValidVariableScope = (scope: any): scope is VariableScope => {
+  return VALID_VARIABLE_SCOPES.includes(scope);
+};
+
 /**
- * Parses DTCG or standard token format to extract the scopes
+ * Parses a token to extract scopes (standard format only: `scopes` key).
  */
-const getTokenScopes = (token: any): VariableScope[] | undefined => {
-  // Standard format uses scopes
+export const getTokenScopes = (token: any): string[] | undefined => {
   if (token.scopes !== undefined && Array.isArray(token.scopes)) {
     return token.scopes;
-  }
-  // DTCG format uses $extensions
-  if (
-    token.$extensions?.scopes !== undefined &&
-    Array.isArray(token.$extensions.scopes)
-  ) {
-    return token.$extensions.scopes;
   }
   return undefined;
 };
@@ -448,7 +469,18 @@ export const tokensToVariables = async (
               }
 
               if (tokenScopes) {
-                variable.scopes = tokenScopes;
+                const invalidScopes = tokenScopes.filter(
+                  (s) => !isValidVariableScope(s)
+                );
+                if (invalidScopes.length > 0) {
+                  result.errors.push(
+                    `Token at path "${path}" has invalid scopes: ${invalidScopes.join(', ')}`
+                  );
+                }
+                const validScopes = tokenScopes.filter(isValidVariableScope);
+                if (validScopes.length > 0) {
+                  variable.scopes = validScopes;
+                }
               }
             }
 
