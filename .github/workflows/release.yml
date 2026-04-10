@@ -46,8 +46,3 @@ jobs:
         run: gh release create ${{ github.ref_name }} ./dist/figma-plugin.zip --title "${{ github.ref_name }}" --generate-notes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish to npm
-        run: pnpm publish --no-git-checks --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
