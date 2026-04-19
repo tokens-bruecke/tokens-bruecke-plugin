@@ -11,7 +11,7 @@ const convertGradientStopsToDTCG = async (
   includeValueStringKeyToAlias: boolean,
   resolver: IResolver
 ) => {
-  const stops = [];
+  const stops: { color: string | undefined; position: number }[] = [];
 
   for (let i = 0; i < gradientStops.length; i++) {
     const stop = gradientStops[i];
@@ -83,7 +83,7 @@ export const colorStylesToTokens = async (
       const paint = paints[0] as SolidPaint;
 
       // Check for bound variables (aliases)
-      let aliasVariable = null;
+      let aliasVariable: string | null = null;
 
       if (boundVariables?.paints && boundVariables.paints.length > 0) {
         aliasVariable = await getAliasVariableName(

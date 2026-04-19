@@ -14,7 +14,7 @@ export const stylesToTokens = async (
     useDTCGKeys,
     includeValueStringKeyToAlias,
   } = props;
-  let styleTokens = [];
+  let styleTokens: object[] = [];
 
   if (!includedStyles) {
     return styleTokens;

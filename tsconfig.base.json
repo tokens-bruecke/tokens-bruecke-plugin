@@ -6,16 +6,20 @@
     "experimentalDecorators": true,
     "removeComments": true,
     "noImplicitAny": false,
-    "moduleResolution": "node",
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false,
+    "useUnknownInCatchVariables": false,
+    "allowArbitraryExtensions": true,
+    "module": "preserve",
+    "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "lib": ["es2021"],
-    "baseUrl": "./",
     "paths": {
-      "@app/*": ["src/app/*"],
-      "@common/*": ["src/common/*"],
-      "@utils/*": ["src/utils/*"],
-      "@cli/*": ["src/cli/*"],
+      "@app/*": ["./src/app/*"],
+      "@common/*": ["./src/common/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@cli/*": ["./src/cli/*"],
       "@root/*": ["./*"]
     }
   }

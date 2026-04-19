@@ -3,7 +3,7 @@ import React, { forwardRef, useImperativeHandle, Ref, useEffect } from 'react';
 import { Text } from 'react-figma-ui/ui';
 import styles from './styles.module.scss';
 
-interface ToastRefI {
+export interface ToastRefI {
   show: (params: ToastIPropsI) => void;
 }
 
@@ -53,7 +53,7 @@ export const Toast = forwardRef<ToastRefI, {}>((_, ref: Ref<ToastRefI>) => {
         {toasts.map((toast, index) => (
           <div
             key={index}
-            className={`${styles.toast} ${styles[toast.options.type]}`}
+            className={`${styles.toast} ${styles[toast.options.type ?? 'info']}`}
             onClick={() => handleClose(index)}
           >
             <Text fontWeight="bold" className={styles.title}>

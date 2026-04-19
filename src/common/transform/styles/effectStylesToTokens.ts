@@ -76,7 +76,7 @@ export const effectStylesToTokens = async (
     if (effectType === 'LAYER_BLUR' || effectType === 'BACKGROUND_BLUR') {
       const effect = style.effects[0];
       const aliasRef = effect.boundVariables?.radius;
-      let aliasVariable = null;
+      let aliasVariable: string | null = null;
 
       if (aliasRef) {
         aliasVariable = await getAliasVariableName(

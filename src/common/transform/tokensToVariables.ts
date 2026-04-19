@@ -612,7 +612,7 @@ export const tokensToVariables = async (
     }
 
     result.success = true;
-    const parts = [];
+    const parts: string[] = [];
     if (result.collectionsCreated > 0) {
       parts.push(`Created ${result.collectionsCreated} collection(s)`);
     }

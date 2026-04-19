@@ -18,7 +18,7 @@ import {
 
 import { config } from '@app/controller/config';
 
-import { Toast } from '@app/components/Toast';
+import { Toast, ToastRefI } from '@app/components/Toast';
 import { ServerSettingsView } from '@app/views/ServerSettingsView';
 
 import { pushToJSONBin } from '@app/api/servers/pushToJSONBin';
@@ -104,7 +104,7 @@ const serverList = [
 ];
 
 export const SettingsView = (props: ViewProps) => {
-  const toastRef = React.useRef(null);
+  const toastRef = React.useRef<ToastRefI>(null);
   const isResizingRef = React.useRef(false);
   const {
     JSONsettingsConfig,
@@ -260,9 +260,9 @@ export const SettingsView = (props: ViewProps) => {
       }
     } catch (error) {
       console.error('Import error:', error);
-      toastRef.current.show({
+      toastRef.current?.show({
         title: 'Import Error',
-        message: error.message,
+        message: error instanceof Error ? error.message : String(error),
         options: {
           type: 'error',
           timeout: 5000,
@@ -323,7 +323,7 @@ export const SettingsView = (props: ViewProps) => {
               JSONsettingsConfig.servers.jsonbin,
               tokens,
               (params) => {
-                toastRef.current.show(params);
+                toastRef.current?.show(params);
               }
             );
           }
@@ -335,7 +335,7 @@ export const SettingsView = (props: ViewProps) => {
               JSONsettingsConfig.servers.github,
               tokens,
               (params) => {
-                toastRef.current.show(params);
+                toastRef.current?.show(params);
               }
             );
           }
@@ -346,7 +346,7 @@ export const SettingsView = (props: ViewProps) => {
               JSONsettingsConfig.servers.githubPullRequest,
               tokens,
               (params) => {
-                toastRef.current.show(params);
+                toastRef.current?.show(params);
               }
             );
           }
@@ -357,7 +357,7 @@ export const SettingsView = (props: ViewProps) => {
               JSONsettingsConfig.servers.gitlab,
               tokens,
               (params) => {
-                toastRef.current.show(params);
+                toastRef.current?.show(params);
               }
             );
           }
@@ -376,7 +376,7 @@ export const SettingsView = (props: ViewProps) => {
         setIsImporting(false);
 
         if (result) {
-          toastRef.current.show({
+          toastRef.current?.show({
             title: result.success ? 'Import Successful' : 'Import Failed',
             message: result.message,
             options: {
@@ -451,10 +451,10 @@ export const SettingsView = (props: ViewProps) => {
           <Dropdown
             label="Color mode"
             value={JSONsettingsConfig.colorMode}
-            onChange={(value: colorModeType) => {
+            onChange={(value: string) => {
               setJSONsettingsConfig({
                 ...JSONsettingsConfig,
-                colorMode: value,
+                colorMode: value as colorModeType,
               });
             }}
             optionsSections={[
@@ -704,7 +704,7 @@ export const SettingsView = (props: ViewProps) => {
                   <Icon name="plus" size="32" />
                   {showServersOverlayList && (
                     <OverlayList
-                      trigger={serversHeaderRef.current}
+                      trigger={serversHeaderRef.current ?? undefined}
                       className={styles.overlayServerList}
                       onOutsideClick={handleShowServersOverlayList}
                       onClick={handleServerView}

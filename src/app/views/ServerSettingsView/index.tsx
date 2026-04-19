@@ -336,12 +336,13 @@ export const ServerSettingsView = (props: ViewProps) => {
 
   const [config, setConfig] = useState(
     viewsConfig[props.server].fields.reduce((acc, field) => {
-      const serverSettings = JSONsettingsConfig.servers[props.server] || {}; // Ensure server settings exist
+      const serverSettings = (JSONsettingsConfig.servers[props.server] ||
+        {}) as unknown as Record<string, string | boolean>;
 
       return {
         ...acc,
-        isEnabled: serverSettings.isEnabled || false, // Provide a default value (false in this case)
-        [field.id]: serverSettings[field.id], // This may be undefined if the field does not exist in server settings
+        isEnabled: !!serverSettings.isEnabled,
+        [field.id]: serverSettings[field.id] ?? '',
       };
     }, {} as LocalConfigI)
   );
@@ -440,7 +441,7 @@ export const ServerSettingsView = (props: ViewProps) => {
                     }
 
                     return acc;
-                  }, [] as ServerType[])
+                  }, [] as string[])
                 );
 
                 return;
@@ -481,12 +482,14 @@ export const ServerSettingsView = (props: ViewProps) => {
                       (acc, field) => {
                         return {
                           ...acc,
-                          ['isEnabled']: false,
-                          [field.id]: viewsConfig[props.server].fields.find(
-                            (item) => item.id === field.id
-                          )?.value,
+                          isEnabled: false,
+                          [field.id]:
+                            viewsConfig[props.server].fields.find(
+                              (item) => item.id === field.id
+                            )?.value ?? '',
                         };
-                      }
+                      },
+                      {} as Record<string, string | boolean>
                     ),
                   },
                 };

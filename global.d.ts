@@ -137,14 +137,7 @@ interface PluginTokenI {
   };
 }
 
-type ServerType =
-  | 'jsonbin'
-  | 'github'
-  | 'githubPullRequest'
-  | 'gitlab'
-  | 'bitbucket'
-  | 'customURL'
-  | 'none';
+type ServerType = keyof ServerSettingsI;
 
 interface TokensMessageI {
   type: 'getTokens' | 'setTokens' | 'importTokens' | 'importResult';

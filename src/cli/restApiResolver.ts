@@ -1,4 +1,8 @@
-import { TextNode, type LocalVariable } from '@figma/rest-api-spec';
+import {
+  TextNode,
+  type LocalVariable,
+  type LocalVariableCollection,
+} from '@figma/rest-api-spec';
 import { IResolver } from '@common/resolver';
 import { Api } from 'figma-api';
 
@@ -45,7 +49,7 @@ export class RestAPIResolver implements IResolver {
             ) as Record<string, Variable>;
             this.variableCollections = Object.fromEntries(
               Object.entries(variableCollections).filter(
-                ([_, collection]: [string, VariableCollection]) =>
+                ([_, collection]: [string, LocalVariableCollection]) =>
                   !collection.remote && !collection.hiddenFromPublishing
               )
             ) as Record<string, VariableCollection>;
