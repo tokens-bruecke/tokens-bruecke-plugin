@@ -12,13 +12,17 @@ import { importTokensFile } from './api/importTokensFile';
 import styles from './styles.module.scss';
 
 const Container = () => {
-  const wrapperRef = React.useRef(null);
+  const wrapperRef = React.useRef<HTMLDivElement | null>(null);
 
   const [generatedTokens, setGeneratedTokens] = useState({});
 
   const [isLoading, setIsLoading] = useState(true);
 
   const [frameHeight, setFrameHeight] = useState(0);
+  const [contentHeight, setContentHeight] = useState(0);
+  const [manualFrameHeight, setManualFrameHeight] = useState<number | null>(
+    null
+  );
   const [isCodePreviewOpen, setIsCodePreviewOpen] = useState(false);
 
   const [currentView, setCurrentView] = useState('main');
@@ -179,9 +183,15 @@ const Container = () => {
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
       const { height } = entries[0].contentRect;
+
+      // Don't track content height while preview is open — the flex row
+      // includes the preview pane and doesn't represent SettingsView height.
+      if (isCodePreviewOpen) return;
+
+      setContentHeight(height);
       setFrameHeight(height);
 
-      if (isCodePreviewOpen) return;
+      if (manualFrameHeight !== null) return;
 
       parent.postMessage(
         {
@@ -201,7 +211,36 @@ const Container = () => {
     return () => {
       resizeObserver.disconnect();
     };
-  }, [isCodePreviewOpen]);
+  }, [isCodePreviewOpen, manualFrameHeight]);
+
+  useEffect(() => {
+    if (manualFrameHeight === null) {
+      return;
+    }
+
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'resizeUIHeight',
+          height: manualFrameHeight,
+        },
+      },
+      '*'
+    );
+  }, [manualFrameHeight]);
+
+  useEffect(() => {
+    if (manualFrameHeight === null || contentHeight <= 0) {
+      return;
+    }
+
+    const maxHeight = Math.max(360, Math.round(contentHeight));
+
+    if (manualFrameHeight > maxHeight) {
+      setManualFrameHeight(maxHeight);
+      setFrameHeight(maxHeight);
+    }
+  }, [manualFrameHeight, contentHeight]);
 
   // pass changed to figma controller
   useDidUpdate(() => {
@@ -218,19 +257,40 @@ const Container = () => {
 
   // handle code preview
   useDidUpdate(() => {
-    if (isCodePreviewOpen) {
-      parent.postMessage(
-        {
-          pluginMessage: {
-            type: 'openCodePreview',
-            isCodePreviewOpen,
-            height: frameHeight,
-          },
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'openCodePreview',
+          isCodePreviewOpen,
+          height: manualFrameHeight ?? frameHeight,
         },
-        '*'
-      );
-    }
+      },
+      '*'
+    );
   }, [isCodePreviewOpen]);
+
+  const handleResizeHeight = (height: number) => {
+    const maxHeight = Math.max(360, Math.round(contentHeight || frameHeight));
+    const nextHeight = Math.round(Math.max(360, Math.min(height, maxHeight)));
+    setManualFrameHeight(nextHeight);
+    setFrameHeight(nextHeight);
+  };
+
+  const handleResetHeight = () => {
+    const nextHeight = Math.max(360, Math.round(contentHeight));
+    setManualFrameHeight(null);
+    setFrameHeight(nextHeight);
+
+    parent.postMessage(
+      {
+        pluginMessage: {
+          type: 'resizeUIHeight',
+          height: nextHeight,
+        },
+      },
+      '*'
+    );
+  };
 
   /////////////////////
   // RENDER FUNCTION //
@@ -258,6 +318,9 @@ const Container = () => {
         setIsCodePreviewOpen={setIsCodePreviewOpen}
         setGeneratedTokens={setGeneratedTokens}
         currentView={currentView}
+        frameHeight={manualFrameHeight ?? frameHeight}
+        onResizeHeight={handleResizeHeight}
+        onResetHeight={handleResetHeight}
       />
     );
   };

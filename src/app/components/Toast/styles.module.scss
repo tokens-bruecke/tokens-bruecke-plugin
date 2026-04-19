@@ -21,6 +21,10 @@
   max-height: 100%;
   width: 100%;
 
+  &:empty {
+    pointer-events: none;
+  }
+
   // hide the scrollbar
   &::-webkit-scrollbar {
     display: none;

@@ -46,6 +46,9 @@ interface ViewProps {
   setIsCodePreviewOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setGeneratedTokens: React.Dispatch<React.SetStateAction<object>>;
   currentView: string;
+  frameHeight: number;
+  onResizeHeight: (height: number) => void;
+  onResetHeight: () => void;
 }
 
 const version = pkg.version;
@@ -102,6 +105,7 @@ const serverList = [
 
 export const SettingsView = (props: ViewProps) => {
   const toastRef = React.useRef(null);
+  const isResizingRef = React.useRef(false);
   const {
     JSONsettingsConfig,
     setJSONsettingsConfig,
@@ -110,6 +114,9 @@ export const SettingsView = (props: ViewProps) => {
     setGeneratedTokens,
     currentView,
     setCurrentView,
+    frameHeight,
+    onResizeHeight,
+    onResetHeight,
   } = props;
   const [isPushing, setIsPushing] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
@@ -174,6 +181,34 @@ export const SettingsView = (props: ViewProps) => {
   const handleServerView = (serverId: string) => {
     props.setCurrentView(serverId);
     // console.log("serverId", serverId);
+  };
+
+  const startHeightResize = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+
+    const startY = event.clientY;
+    const startHeight = frameHeight || 600;
+    isResizingRef.current = true;
+    document.body.classList.add(styles.resizingCursor);
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      if (!isResizingRef.current) {
+        return;
+      }
+
+      const delta = moveEvent.clientY - startY;
+      onResizeHeight(startHeight + delta);
+    };
+
+    const handleMouseUp = () => {
+      isResizingRef.current = false;
+      document.body.classList.remove(styles.resizingCursor);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
   };
 
   const getTokensPreview = () => {
@@ -809,7 +844,7 @@ export const SettingsView = (props: ViewProps) => {
           topBorder
           bottomBorder={false}
         >
-          <Stack hasTopBottomPadding direction="row" className={styles.about}>
+          <Stack direction="row" className={styles.about}>
             <a href={config.docsLink} target="_blank">
               <Text>Documentation</Text>
             </a>
@@ -818,6 +853,13 @@ export const SettingsView = (props: ViewProps) => {
             </a>
           </Stack>
         </Panel>
+
+        <div
+          className={styles.heightResizer}
+          onMouseDown={startHeightResize}
+          onDoubleClick={onResetHeight}
+          title="Drag to resize. Double-click to auto-fit"
+        />
       </Stack>
     </>
   );

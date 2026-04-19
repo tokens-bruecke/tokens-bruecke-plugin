@@ -72,15 +72,15 @@ figma.ui.onmessage = async (msg) => {
   // import tokens and create variables
   if (msg.type === 'importTokens') {
     console.log('Importing tokens...', msg.tokens);
-    
+
     try {
       const result = await tokensToVariables(
         msg.tokens,
         new PluginAPIResolver()
       );
-      
+
       console.log('Import result:', result);
-      
+
       // Send result back to UI
       figma.ui.postMessage({
         type: 'importResult',
@@ -89,14 +89,14 @@ figma.ui.onmessage = async (msg) => {
         server: [],
         result: result,
       } as TokensMessageI);
-      
+
       // Refresh the collections list if import was successful
       if (result.success) {
         await checkForVariables('checkForVariables');
       }
     } catch (error) {
       console.error('Import error:', error);
-      
+
       figma.ui.postMessage({
         type: 'importResult',
         tokens: null,
@@ -115,13 +115,17 @@ figma.ui.onmessage = async (msg) => {
 
   // change size of UI
   if (msg.type === 'resizeUIHeight') {
-    figma.ui.resize(frameWidth, Math.round(msg.height));
+    const currentWidth = isCodePreviewOpen
+      ? frameWidthWithCodePreview
+      : config.frameWidth;
+    figma.ui.resize(currentWidth, Math.round(msg.height));
   }
 
   if (msg.type === 'openCodePreview') {
-    console.log('openCodePreview', msg.isCodePreviewOpen);
-
     isCodePreviewOpen = msg.isCodePreviewOpen;
-    figma.ui.resize(frameWidthWithCodePreview, Math.round(msg.height));
+    const nextWidth = isCodePreviewOpen
+      ? frameWidthWithCodePreview
+      : config.frameWidth;
+    figma.ui.resize(nextWidth, Math.round(msg.height));
   }
 };

@@ -1,3 +1,11 @@
+// hide the iframe viewport scrollbar (WebKit)
+:global(html),
+:global(body) {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .container {
   display: flex;
   overflow: hidden;

@@ -45,6 +45,7 @@
 
 .about {
   justify-content: space-between;
+  padding-top: 6px;
 
   a {
     color: var(--figma-color-text);
@@ -61,4 +62,23 @@
   padding: 0 4px;
   margin: 0 2px;
   border-radius: 3px;
+}
+
+.heightResizer {
+  width: 15%;
+  margin: 0 auto 8px;
+  height: 4px;
+  border-radius: 4px;
+  background-color: var(--figma-color-border);
+  cursor: ns-resize;
+  flex-shrink: 0;
+
+  &:hover {
+    background-color: var(--figma-color-icon-secondary);
+  }
+}
+
+.resizingCursor {
+  cursor: ns-resize;
+  user-select: none;
 }

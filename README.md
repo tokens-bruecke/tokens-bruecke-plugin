@@ -42,6 +42,7 @@ The plugin converts Figma variables into design-tokens JSON that are compatible 
     - [GitLab](#gitlab)
     - [Custom server](#custom-server)
   - [Show output](#show-output)
+  - [Plugin window height](#plugin-window-height)
   - [Config autosaving](#config-autosaving)
   - [Styles support](#styles-support)
     - [Typography](#typography)
@@ -398,6 +399,16 @@ There is a possibilty to connect a custom server. In order to do that you need t
 If you want to see the generated JSON, you can enable the `Show output` option. The plugin will show the JSON in the sidebar. The output doesn't update automatically, in order to optimize the performance. So, if you want to see the updated JSON, you need to click the `Update` button.
 
 ![fig.10](readme-assets/fig10.webp)
+
+---
+
+## Plugin window height
+
+The plugin window auto-fits the height of its content, but you can adjust it manually using the resizer handle at the bottom of the settings view.
+
+- **Drag** the handle up or down to set a custom height. The minimum is `360px` and the maximum is the current content height — you can't grow the window beyond what's actually there.
+- **Double-click** the handle to reset back to auto-fit. The window snaps to match the content height again.
+- Your manual height is preserved while the output preview is open, so you can resize both with and without the preview showing.
 
 ---
 
