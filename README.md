@@ -30,6 +30,7 @@ The plugin converts Figma variables into design-tokens JSON that are compatible 
     - [Include `.value` string for aliases](#include-value-string-for-aliases)
     - [Include Figma metadata](#include-figma-metadata)
     - [Split collections into separate files](#split-collections-into-separate-files)
+    - [Omit collection names](#omit-collection-names)
   - [Use as cli tool](#use-as-cli-tool)
     - [Installation](#installation)
     - [Usage](#usage)
@@ -257,6 +258,41 @@ Is `off` by default. When enabled, each Figma variable collection is exported as
 
 This is useful when you want to keep component-level token files separate (e.g. `button.tokens.json`, `card.tokens.json`).
 
+### Omit collection names
+
+Is `off` by default. When enabled, the plugin drops the top-level collection name from the output and merges all variables into a single flat namespace (variables are still grouped by the `/` separator in their names).
+
+```json
+// Without "Omit collection names" (default)
+{
+  "Primitives": {
+    "color": {
+      "primary": { "type": "color", "value": "#000000" }
+    }
+  },
+  "Semantic": {
+    "button": {
+      "background": { "type": "color", "value": "{color.primary}" }
+    }
+  }
+}
+
+// With "Omit collection names"
+{
+  "color": {
+    "primary": { "type": "color", "value": "#000000" }
+  },
+  "button": {
+    "background": { "type": "color", "value": "{color.primary}" }
+  }
+}
+```
+
+Alias references are also rewritten so they point to the flat path (the collection prefix is removed).
+
+> [!WARNING]  
+> If two variables in different collections share the same name, the last one wins and a collision warning is logged to the console. Rename conflicting variables (or keep this option off) to avoid losing values.
+
 ---
 
 ## Use as cli tool
@@ -297,14 +333,15 @@ This will fetch figma variables and export them in `out/tokens.json`
 
 ### Options
 
-| Option                  | Alias | Description                                                           | Required                                          |
-| ----------------------- | ----- | --------------------------------------------------------------------- | ------------------------------------------------- |
-| `--api-key`             | `-a`  | Figma personal access token (PAT)                                     | One of `--api-key` or `--oauth-token` is required |
-| `--oauth-token`         | `-t`  | Figma OAuth token                                                     | One of `--api-key` or `--oauth-token` is required |
-| `--file-key`            | `-f`  | Figma file key                                                        | Yes                                               |
-| `--output`              | `-o`  | Path to output file, or output directory when `--split-by-collection` | Yes                                               |
-| `--config`              | `-c`  | Path to configuration file                                            | No                                                |
-| `--split-by-collection` | `-s`  | Write each collection as a separate `.tokens.json` file in `--output` | No                                                |
+| Option                    | Alias | Description                                                                     | Required                                          |
+| ------------------------- | ----- | ------------------------------------------------------------------------------- | ------------------------------------------------- |
+| `--api-key`               | `-a`  | Figma personal access token (PAT)                                               | One of `--api-key` or `--oauth-token` is required |
+| `--oauth-token`           | `-t`  | Figma OAuth token                                                               | One of `--api-key` or `--oauth-token` is required |
+| `--file-key`              | `-f`  | Figma file key                                                                  | Yes                                               |
+| `--output`                | `-o`  | Path to output file, or output directory when `--split-by-collection`           | Yes                                               |
+| `--config`                | `-c`  | Path to configuration file                                                      | No                                                |
+| `--split-by-collection`   | `-s`  | Write each collection as a separate `.tokens.json` file in `--output`           | No                                                |
+| `--omit-collection-names` |       | Drop top-level collection names and merge all variables into one flat namespace | No                                                |
 
 > [!TIP]
 > For automated pipelines, `--oauth-token` is preferred over `--api-key`. Personal Access Tokens expire every 90 days and require manual renewal, while OAuth tokens support programmatic refresh for indefinite access.
@@ -330,7 +367,8 @@ You can use a JSON configuration file to specify the export options for the CLI.
   "usePercentageOpacity": false, // Export opacity as percentage (10%) instead of decimal (0.1)
   "colorMode": "hex", // "hex"  | "rgba-object"  | "rgba-css"  | "hsla-object"  | "hsla-css";
   "storeStyleInCollection": "none", // Name of one of your collection or "none" to keep them separated
-  "splitByCollection": false // Write each collection as a separate .tokens.json file
+  "splitByCollection": false, // Write each collection as a separate .tokens.json file
+  "omitCollectionNames": false // Drop top-level collection names and merge all variables into one flat namespace
 }
 ```
 
