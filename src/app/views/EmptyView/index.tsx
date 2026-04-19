@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { config } from '../../controller/config';
+import { config } from '@app/controller/config';
 
 import { Text, Button, Stack } from 'react-figma-ui/ui';
-import { StatusPicture } from '../../components/StatusPicture';
+import { StatusPicture } from '@app/components/StatusPicture';
 
 import styles from './styles.module.scss';
 

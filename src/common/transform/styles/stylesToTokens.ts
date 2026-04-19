@@ -2,7 +2,7 @@ import { textStylesToTokens } from './textStylesToTokens';
 import { gridStylesToTokens } from './gridStylesToTokens';
 import { effectStylesToTokens } from './effectStylesToTokens';
 import { colorStylesToTokens } from './colorStylesToTokens';
-import { IResolver } from '../../resolver';
+import { IResolver } from '@common/resolver';
 
 export const stylesToTokens = async (
   props: ExportSettingsI,
@@ -19,7 +19,6 @@ export const stylesToTokens = async (
   if (!includedStyles) {
     return styleTokens;
   }
-
 
   // Extract text tokens
   if (includedStyles.text?.isIncluded) {

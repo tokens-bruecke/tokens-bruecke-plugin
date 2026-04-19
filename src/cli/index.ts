@@ -4,7 +4,7 @@ import yargs from 'yargs';
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { RestAPIResolver } from './restApiResolver';
-import { getTokens } from '../common/export';
+import { getTokens } from '@common/export';
 
 const defaultConfig: ExportSettingsI = {
   includedStyles: {

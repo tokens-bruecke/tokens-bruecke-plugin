@@ -1,4 +1,4 @@
-import { IResolver } from '../../common/resolver';
+import { IResolver } from '@common/resolver';
 
 export class PluginAPIResolver implements IResolver {
   async getLocalEffectStyles(): Promise<EffectStyle[]> {
@@ -29,7 +29,9 @@ export class PluginAPIResolver implements IResolver {
     return figma.variables.getVariableByIdAsync(variableId);
   }
 
-  async getVariableCollectionById(id: string): Promise<VariableCollection | null> {
+  async getVariableCollectionById(
+    id: string
+  ): Promise<VariableCollection | null> {
     return figma.variables.getVariableCollectionByIdAsync(id);
   }
 }

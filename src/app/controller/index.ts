@@ -4,9 +4,9 @@ import { getStorageConfig } from './getStorageConfig';
 // import { removeDollarSign } from "../utils/removeDollarSign";
 
 import { config } from './config';
-import { getTokens } from '../../common/export';
-import { tokensToVariables } from '../../common/transform/tokensToVariables';
-import { PluginAPIResolver } from '../api/pluginApiResolver';
+import { getTokens } from '@common/export';
+import { tokensToVariables } from '@common/transform/tokensToVariables';
+import { PluginAPIResolver } from '@app/api/pluginApiResolver';
 
 // clear console on reload
 console.clear();

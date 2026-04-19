@@ -1,8 +1,8 @@
-import { groupObjectNamesIntoCategories } from '../groupObjectNamesIntoCategories';
-import { convertRGBA } from '../color/convertRGBA';
-import { getTokenKeyName } from '../getTokenKeyName';
-import { getAliasVariableName } from '../getAliasVariableName';
-import { IResolver } from '../../resolver';
+import { groupObjectNamesIntoCategories } from '@common/transform/groupObjectNamesIntoCategories';
+import { convertRGBA } from '@common/transform/color/convertRGBA';
+import { getTokenKeyName } from '@common/transform/getTokenKeyName';
+import { getAliasVariableName } from '@common/transform/getAliasVariableName';
+import { IResolver } from '@common/resolver';
 
 const wrapShadowObject = async (
   shadowEffect: DropShadowEffect | InnerShadowEffect,
@@ -28,7 +28,8 @@ const wrapShadowObject = async (
   // console.log("shadowEffect", shadowEffect);
   return {
     inset: shadowEffect.type === 'INNER_SHADOW',
-    color: (await getAlias('color')) || convertRGBA(shadowEffect.color, colorMode),
+    color:
+      (await getAlias('color')) || convertRGBA(shadowEffect.color, colorMode),
     offsetX: (await getAlias('offsetX')) || `${shadowEffect.offset.x}px`,
     offsetY: (await getAlias('offsetY')) || `${shadowEffect.offset.y}px`,
     blur: (await getAlias('blur')) || `${shadowEffect.radius}px`,
@@ -49,7 +50,7 @@ export const effectStylesToTokens = async (
   let effectTokens = {};
 
   const allEffectStyles = {};
-  
+
   for (const style of effectStyles) {
     const styleName = style.name;
     const effectType = style.effects[0].type;

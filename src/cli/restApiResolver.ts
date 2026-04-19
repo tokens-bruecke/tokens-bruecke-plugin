@@ -1,5 +1,5 @@
 import { TextNode, type LocalVariable } from '@figma/rest-api-spec';
-import { IResolver } from '../common/resolver';
+import { IResolver } from '@common/resolver';
 import { Api } from 'figma-api';
 
 export class RestAPIResolver implements IResolver {

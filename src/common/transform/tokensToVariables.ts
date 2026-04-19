@@ -1,4 +1,4 @@
-import { IResolver } from '../resolver';
+import { IResolver } from '@common/resolver';
 
 interface ImportResult {
   success: boolean;

@@ -3,7 +3,7 @@ import { normilizeType } from './normilizeType';
 import { getTokenKeyName } from './getTokenKeyName';
 
 import { groupObjectNamesIntoCategories } from './groupObjectNamesIntoCategories';
-import { IResolver } from '../resolver';
+import { IResolver } from '@common/resolver';
 
 // console.clear();
 

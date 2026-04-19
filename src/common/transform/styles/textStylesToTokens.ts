@@ -1,11 +1,11 @@
-import { groupObjectNamesIntoCategories } from '../groupObjectNamesIntoCategories';
+import { groupObjectNamesIntoCategories } from '@common/transform/groupObjectNamesIntoCategories';
 
-import { getLineHeight } from '../text/getLineHeight';
-import { getLetterSpacing } from '../text/getLetterSpacing';
-import { getFontStyleAndWeight } from '../text/getFontStyleAndWeight';
-import { getTokenKeyName } from '../getTokenKeyName';
-import { getAliasVariableName } from '../getAliasVariableName';
-import { IResolver } from '../../resolver';
+import { getLineHeight } from '@common/transform/text/getLineHeight';
+import { getLetterSpacing } from '@common/transform/text/getLetterSpacing';
+import { getFontStyleAndWeight } from '@common/transform/text/getFontStyleAndWeight';
+import { getTokenKeyName } from '@common/transform/getTokenKeyName';
+import { getAliasVariableName } from '@common/transform/getAliasVariableName';
+import { IResolver } from '@common/resolver';
 
 export const textStylesToTokens = async (
   customName: string,
@@ -19,13 +19,15 @@ export const textStylesToTokens = async (
   let textTokens = {};
 
   const allTextStyles = {};
-  
+
   for (const style of textStyles) {
     let aliasVariables = {} as TextStyle['boundVariables'];
     const boundVariables = style.boundVariables;
 
     if (boundVariables) {
-      for (const key of Object.keys(boundVariables) as VariableBindableTextField[]) {
+      for (const key of Object.keys(
+        boundVariables
+      ) as VariableBindableTextField[]) {
         aliasVariables = {
           ...aliasVariables,
           [key]: await getAliasVariableName(

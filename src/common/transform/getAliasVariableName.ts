@@ -1,5 +1,5 @@
 import { getTokenKeyName } from './getTokenKeyName';
-import { IResolver } from '../resolver';
+import { IResolver } from '@common/resolver';
 
 export const getAliasVariableName = async (
   variableId: string,
@@ -8,14 +8,16 @@ export const getAliasVariableName = async (
   resolver: IResolver,
   omitCollectionNames = false
 ) => {
-  const variableObj = await resolver.getVariableById(variableId) as Variable | null;
+  const variableObj = (await resolver.getVariableById(
+    variableId
+  )) as Variable | null;
   if (!variableObj) {
     console.log('cannot find variable', variableId);
     return '#missing#';
   }
-  const collectionObj = await resolver.getVariableCollectionById(
+  const collectionObj = (await resolver.getVariableCollectionById(
     variableObj.variableCollectionId
-  ) as VariableCollection | null;
+  )) as VariableCollection | null;
 
   const variableName = variableObj.name;
   const collectionName = collectionObj.name;

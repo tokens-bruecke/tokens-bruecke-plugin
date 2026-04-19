@@ -59,6 +59,12 @@ module.exports = (env, argv) => ({
   // Configure how Webpack resolves modules
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'], // Specify the order in which extensions should be tried when resolving modules
+    alias: {
+      '@app': path.resolve(__dirname, 'src/app'),
+      '@common': path.resolve(__dirname, 'src/common'),
+      '@cli': path.resolve(__dirname, 'src/cli'),
+      '@root': path.resolve(__dirname),
+    },
   },
 
   // Define the output file(s)

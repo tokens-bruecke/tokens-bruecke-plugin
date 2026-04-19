@@ -1,6 +1,6 @@
-import { groupObjectNamesIntoCategories } from '../groupObjectNamesIntoCategories';
-import { getTokenKeyName } from '../getTokenKeyName';
-import { IResolver } from '../../resolver';
+import { groupObjectNamesIntoCategories } from '@common/transform/groupObjectNamesIntoCategories';
+import { getTokenKeyName } from '@common/transform/getTokenKeyName';
+import { IResolver } from '@common/resolver';
 
 export const gridStylesToTokens = async (
   customName: string,

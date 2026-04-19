@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './styles.module.scss';
 
-import { getTokensStat } from '../../../common/transform/getTokensStat';
+import { getTokensStat } from '@common/transform/getTokensStat';
 
 import { Text, Icon } from 'react-figma-ui/ui';
 

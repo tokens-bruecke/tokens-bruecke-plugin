@@ -1,8 +1,8 @@
-import { groupObjectNamesIntoCategories } from '../groupObjectNamesIntoCategories';
-import { convertRGBA } from '../color/convertRGBA';
-import { getTokenKeyName } from '../getTokenKeyName';
-import { getAliasVariableName } from '../getAliasVariableName';
-import { IResolver } from '../../resolver';
+import { groupObjectNamesIntoCategories } from '@common/transform/groupObjectNamesIntoCategories';
+import { convertRGBA } from '@common/transform/color/convertRGBA';
+import { getTokenKeyName } from '@common/transform/getTokenKeyName';
+import { getAliasVariableName } from '@common/transform/getAliasVariableName';
+import { IResolver } from '@common/resolver';
 
 const convertGradientStopsToDTCG = async (
   gradientStops: ReadonlyArray<ColorStop>,
@@ -12,7 +12,7 @@ const convertGradientStopsToDTCG = async (
   resolver: IResolver
 ) => {
   const stops = [];
-  
+
   for (let i = 0; i < gradientStops.length; i++) {
     const stop = gradientStops[i];
     let colorValue;
@@ -27,7 +27,10 @@ const convertGradientStopsToDTCG = async (
         includeValueStringKeyToAlias,
         resolver
       );
-      console.log(`Stop ${i} (position ${stop.position}): Variable ID ${stopBoundVariable.id} resolved to:`, colorValue);
+      console.log(
+        `Stop ${i} (position ${stop.position}): Variable ID ${stopBoundVariable.id} resolved to:`,
+        colorValue
+      );
     } else {
       const colorWithOpacity = {
         r: stop.color.r,
@@ -36,7 +39,10 @@ const convertGradientStopsToDTCG = async (
         a: stop.color.a,
       };
       colorValue = convertRGBA(colorWithOpacity, colorMode);
-      console.log(`Stop ${i} (position ${stop.position}): No bound variable, using direct color:`, colorValue);
+      console.log(
+        `Stop ${i} (position ${stop.position}): No bound variable, using direct color:`,
+        colorValue
+      );
     }
 
     stops.push({
@@ -75,10 +81,10 @@ export const colorStylesToTokens = async (
     // Handle solid color paints
     if (paints.length === 1 && paints[0].type === 'SOLID') {
       const paint = paints[0] as SolidPaint;
-      
+
       // Check for bound variables (aliases)
       let aliasVariable = null;
-      
+
       if (boundVariables?.paints && boundVariables.paints.length > 0) {
         aliasVariable = await getAliasVariableName(
           boundVariables.paints[0].id,
@@ -97,12 +103,13 @@ export const colorStylesToTokens = async (
 
       const styleObject = {
         [keyNames.type]: 'color',
-        [keyNames.value]: aliasVariable || convertRGBA(colorWithOpacity, colorMode),
+        [keyNames.value]:
+          aliasVariable || convertRGBA(colorWithOpacity, colorMode),
       };
 
       allColorStyles[styleName] = styleObject;
     }
-    
+
     // Handle gradient paints (LINEAR, RADIAL, ANGULAR, DIAMOND)
     else if (
       paints[0].type === 'GRADIENT_LINEAR' ||
@@ -111,7 +118,7 @@ export const colorStylesToTokens = async (
       paints[0].type === 'GRADIENT_DIAMOND'
     ) {
       const paint = paints[0] as GradientPaint;
-      
+
       const gradientStops = await convertGradientStopsToDTCG(
         paint.gradientStops,
         colorMode,

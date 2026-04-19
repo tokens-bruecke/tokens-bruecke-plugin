@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { IResolver } from '../resolver';
+import { IResolver } from '@common/resolver';
 
 import { normalizeValue } from './normalizeValue';
 

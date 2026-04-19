@@ -15,7 +15,8 @@
       "@app/*": ["src/app/*"],
       "@common/*": ["src/common/*"],
       "@utils/*": ["src/utils/*"],
-      "@cli/*": ["src/cli/*"]
+      "@cli/*": ["src/cli/*"],
+      "@root/*": ["./*"]
     }
   }
 }

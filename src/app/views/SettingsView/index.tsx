@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
-import pkg from '../../../../package.json';
+import pkg from '@root/package.json';
 
 import {
   Panel,
@@ -16,19 +16,19 @@ import {
   OverlayList,
 } from 'react-figma-ui/ui';
 
-import { config } from '../../controller/config';
+import { config } from '@app/controller/config';
 
-import { Toast } from '../../components/Toast';
-import { ServerSettingsView } from '../ServerSettingsView';
+import { Toast } from '@app/components/Toast';
+import { ServerSettingsView } from '@app/views/ServerSettingsView';
 
-import { pushToJSONBin } from '../../api/servers/pushToJSONBin';
-import { pushToGithub } from '../../api/servers/pushToGithub';
-import { githubPullRequest } from '../../api/servers/githubPullRequest';
-import { pushToGitlab } from '../../api/servers/pushToGitlab';
-import { pushToCustomURL } from '../../api/servers/pushToCustomURL';
+import { pushToJSONBin } from '@app/api/servers/pushToJSONBin';
+import { pushToGithub } from '@app/api/servers/pushToGithub';
+import { githubPullRequest } from '@app/api/servers/githubPullRequest';
+import { pushToGitlab } from '@app/api/servers/pushToGitlab';
+import { pushToCustomURL } from '@app/api/servers/pushToCustomURL';
 
-import { downloadTokensFile } from '../../api/downloadTokensFile';
-import { importTokensFile } from '../../api/importTokensFile';
+import { downloadTokensFile } from '@app/api/downloadTokensFile';
+import { importTokensFile } from '@app/api/importTokensFile';
 
 type StyleListItemType = {
   id: stylesType;
