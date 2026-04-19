@@ -11,6 +11,12 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js'], // Resolve TypeScript and JavaScript files
+    alias: {
+      '@app': path.resolve(__dirname, 'src/app'),
+      '@common': path.resolve(__dirname, 'src/common'),
+      '@cli': path.resolve(__dirname, 'src/cli'),
+      '@root': path.resolve(__dirname),
+    },
   },
 
   module: {

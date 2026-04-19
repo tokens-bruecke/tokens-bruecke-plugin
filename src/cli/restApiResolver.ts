@@ -1,8 +1,10 @@
-import {
-  TextNode,
-  type LocalVariable,
-  type LocalVariableCollection,
-} from '@figma/rest-api-spec';
+import { TextNode, type LocalVariable } from '@figma/rest-api-spec';
+
+type LocalVariableCollection = {
+  remote: boolean;
+  hiddenFromPublishing: boolean;
+  [key: string]: any;
+};
 import { IResolver } from '@common/resolver';
 import { Api } from 'figma-api';
 
