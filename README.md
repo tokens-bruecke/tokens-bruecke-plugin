@@ -709,7 +709,7 @@ Unlike design tokens, Figma variables now [support only 4 types](https://www.fig
 
 ## Design tokens types
 
-In order to validate types, the plugin uses the [Design Tokens types](https://github.com/PavelLaptev/tokens-bruecke/blob/main/token-types.d.ts).
+In order to validate types, the plugin uses the [Design Tokens types](https://github.com/tokens-bruecke/figma-plugin/blob/main/plugin-types.d.ts).
 
 ---
 
