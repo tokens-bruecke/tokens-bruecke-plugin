@@ -5,7 +5,8 @@ export const getAliasVariableName = async (
   variableId: string,
   isDTCGForamt: boolean,
   includeValueStringKeyToAlias: boolean,
-  resolver: IResolver
+  resolver: IResolver,
+  omitCollectionNames = false
 ) => {
   const variableObj = await resolver.getVariableById(variableId) as Variable | null;
   if (!variableObj) {
@@ -23,9 +24,10 @@ export const getAliasVariableName = async (
   const isValueKeyIncluded = includeValueStringKeyToAlias ? `.${valueKey}` : '';
 
   const variableParts = variableName.split('/');
-  const aliasName = `{${collectionName}.${variableParts.join(
-    '.'
-  )}${isValueKeyIncluded}}`;
+
+  const aliasName = omitCollectionNames
+    ? `{${variableParts.join('.')}${isValueKeyIncluded}}`
+    : `{${collectionName}.${variableParts.join('.')}${isValueKeyIncluded}}`;
 
   return aliasName;
 };

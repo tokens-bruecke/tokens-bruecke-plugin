@@ -95,6 +95,7 @@ interface ExportSettingsI {
   includeFigmaMetaData: boolean;
   usePercentageOpacity: boolean;
   splitByCollection: boolean;
+  omitCollectionNames: boolean;
 }
 
 interface ServerSettingsI {

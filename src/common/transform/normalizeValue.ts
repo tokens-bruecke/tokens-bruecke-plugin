@@ -11,6 +11,7 @@ interface PropsI {
   useDTCGKeys: boolean;
   includeValueStringKeyToAlias: boolean;
   usePercentageOpacity: boolean;
+  omitCollectionNames?: boolean;
 }
 
 export const normalizeValue = async (props: PropsI, resolver: IResolver) => {
@@ -22,6 +23,7 @@ export const normalizeValue = async (props: PropsI, resolver: IResolver) => {
     useDTCGKeys,
     includeValueStringKeyToAlias,
     usePercentageOpacity,
+    omitCollectionNames = false,
   } = props;
 
   // console.log("variableValue", variableValue);
@@ -33,7 +35,8 @@ export const normalizeValue = async (props: PropsI, resolver: IResolver) => {
       variableValue.id,
       useDTCGKeys,
       includeValueStringKeyToAlias,
-      resolver
+      resolver,
+      omitCollectionNames
     );
 
     return aliasVariableName;

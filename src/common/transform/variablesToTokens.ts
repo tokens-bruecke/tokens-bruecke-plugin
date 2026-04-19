@@ -19,6 +19,7 @@ export const variablesToTokens = async (
     includeValueStringKeyToAlias,
     includeFigmaMetaData,
     usePercentageOpacity,
+    omitCollectionNames = false,
   } = config;
   const keyNames = getTokenKeyName(useDTCGKeys);
 
@@ -28,6 +29,10 @@ export const variablesToTokens = async (
       [collection.name]: {},
     };
   });
+
+  // When omitting collection names, use a single flat object for all variables
+  const flatVariables: Record<string, any> = {};
+  const seenVariableNames = new Set<string>();
 
   // console.log("variables", variables);
   // console.log("collections", collections);
@@ -64,6 +69,7 @@ export const variablesToTokens = async (
           useDTCGKeys,
           includeValueStringKeyToAlias,
           usePercentageOpacity,
+          omitCollectionNames,
         },
         resolver
       );
@@ -120,13 +126,28 @@ export const variablesToTokens = async (
       },
     } as PluginTokenI;
 
-    // place variable into collection
-    emptyCollection = emptyCollection.map((collection) => {
-      if (Object.keys(collection)[0] === collectionName) {
-        collection[collectionName][variable.name] = variableObject;
+    if (omitCollectionNames) {
+      // Place variable into flat object; warn on collision
+      if (seenVariableNames.has(variable.name)) {
+        console.warn(
+          `[tokens-bruecke] Collision: variable "${variable.name}" exists in multiple collections. Last value wins.`
+        );
       }
-      return collection;
-    });
+      seenVariableNames.add(variable.name);
+      flatVariables[variable.name] = variableObject;
+    } else {
+      // place variable into collection
+      emptyCollection = emptyCollection.map((collection) => {
+        if (Object.keys(collection)[0] === collectionName) {
+          collection[collectionName][variable.name] = variableObject;
+        }
+        return collection;
+      });
+    }
+  }
+
+  if (omitCollectionNames) {
+    return groupObjectNamesIntoCategories(flatVariables);
   }
 
   // console.log("emptyCollection", emptyCollection);

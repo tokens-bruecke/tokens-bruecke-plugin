@@ -574,6 +574,23 @@ export const SettingsView = (props: ViewProps) => {
       </Panel>
 
       <Panel>
+        <Stack hasLeftRightPadding>
+          <Toggle
+            id="omit-collection-names"
+            checked={JSONsettingsConfig.omitCollectionNames}
+            onChange={(checked: boolean) => {
+              setJSONsettingsConfig({
+                ...JSONsettingsConfig,
+                omitCollectionNames: checked,
+              });
+            }}
+          >
+            <Text>Omit collection names</Text>
+          </Toggle>
+        </Stack>
+      </Panel>
+
+      <Panel>
         <Stack>
           <Toggle
             id="scope-feature"

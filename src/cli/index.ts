@@ -33,6 +33,7 @@ const defaultConfig: ExportSettingsI = {
   useDTCGKeys: false,
   usePercentageOpacity: false,
   splitByCollection: false,
+  omitCollectionNames: false,
 };
 
 const argv = yargs(process.argv.slice(2))
@@ -77,6 +78,12 @@ const argv = yargs(process.argv.slice(2))
     type: 'boolean',
     default: false,
   })
+  .option('omit-collection-names', {
+    description:
+      'Omit collection names as top-level groups; merge all tokens into a single namespace',
+    type: 'boolean',
+    default: false,
+  })
   .help()
   .alias('help', 'h')
   .parseSync();
@@ -98,6 +105,8 @@ const options: ExportSettingsI = {
   ...config,
   splitByCollection:
     (config as any).splitByCollection ?? argv['split-by-collection'],
+  omitCollectionNames:
+    (config as any).omitCollectionNames ?? argv['omit-collection-names'],
 };
 
 async function exportFigmaTokens() {

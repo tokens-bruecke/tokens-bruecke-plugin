@@ -53,6 +53,7 @@ const Container = () => {
     includeFigmaMetaData: false,
     usePercentageOpacity: false,
     splitByCollection: false,
+    omitCollectionNames: false,
     servers: {
       jsonbin: {
         isEnabled: false,
