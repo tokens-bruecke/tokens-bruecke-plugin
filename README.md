@@ -15,7 +15,6 @@ The plugin converts Figma variables into design-tokens JSON that are compatible 
 - [TokensBrücke — Figma plugin](#tokensbrücke--figma-plugin)
   - [What is this plugin for?](#what-is-this-plugin-for)
   - [Table of contents](#table-of-contents)
-  - [New version 2.0.0](#new-version-200)
   - [How to use](#how-to-use)
     - [Export and Import](#export-and-import)
       - [Export (Variables → JSON)](#export-variables--json)
@@ -60,18 +59,9 @@ The plugin converts Figma variables into design-tokens JSON that are compatible 
   - [Variables types conversion](#variables-types-conversion)
   - [Design tokens types](#design-tokens-types)
   - [Scopes lemitations](#scopes-lemitations)
-  - [Style Dictionary support](#style-dictionary-support)
-  - [Contribution 🚧](#contribution-)
   - [Feedback](#feedback)
 
 ---
-
-## New version 2.0.0
-
-In the new version of the plugin all mode variables moved into the `$extensions` / `modes` object.
-This is how Terrazzo (formerly “Cobalt UI”) works with multiple modes. Check it here — [https://terrazzo.app/docs/](https://terrazzo.app/docs/)
-
-You can download and install previos version `1.6.1` here — [github.com/tokens-bruecke/figma-plugin/files/13536853/build.zip](https://github.com/tokens-bruecke/figma-plugin/files/13536853/build.zip)
 
 ## How to use
 
@@ -90,6 +80,7 @@ The plugin supports both **exporting** and **importing** design tokens:
 - Click **"Download JSON"** to export your Figma variables as a design tokens JSON file
 - The exported file is compatible with the [Design Tokens specification](https://design-tokens.github.io/community-group/format/)
 - You can also push directly to supported services (JSONBin, GitHub, GitLab, etc.)
+- The exported tokens can be converted into CSS, JS, and other platform formats using tools like [Terrazzo](https://terrazzo.app/docs/) or [Style Dictionary](https://amzn.github.io/style-dictionary/)
 
 #### Import (JSON → Variables)
 
@@ -768,18 +759,6 @@ In order to convert `FONT-WEIGHT` and `OPACITY` types into valid values you shou
 
 - `FONT_WEIGHT` scope will be converted into `string` type.
 - `OPACITY` scope will be converted into `number` type (or `string` with `%` if "Use percentage for opacity" is enabled).
-
----
-
-## Style Dictionary support
-
-There is a set of utils for [Style Dictionary](https://github.com/tokens-bruecke/sd-utils).
-
----
-
-## Contribution 🚧
-
-Comming soon.
 
 ---
 
