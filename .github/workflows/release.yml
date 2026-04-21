@@ -13,6 +13,8 @@ jobs:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -46,3 +48,12 @@ jobs:
         run: gh release create ${{ github.ref_name }} ./dist/figma-plugin.zip --title "${{ github.ref_name }}" --generate-notes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update CHANGELOG.md
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          npx --yes conventional-changelog-cli -p conventionalcommits -i CHANGELOG.md -s -r 1
+          git add CHANGELOG.md
+          git diff --staged --quiet || git commit -m "docs: update CHANGELOG for ${{ github.ref_name }}"
+          git push origin HEAD:main
