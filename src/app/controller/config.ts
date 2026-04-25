@@ -1,6 +1,6 @@
 export const config = {
   frameWidth: 300,
-  docsLink: 'https://github.com/PavelLaptev/figma-variables-export',
+  docsLink: 'https://github.com/tokens-bruecke/figma-plugin',
   changelogLink:
-    'https://github.com/PavelLaptev/tokens-bruecke/blob/main/CHANGELOG.md',
+    'https://github.com/tokens-bruecke/figma-plugin/blob/main/CHANGELOG.md',
 };

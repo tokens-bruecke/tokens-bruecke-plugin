@@ -111,7 +111,7 @@ The plugin supports both **exporting** and **importing** design tokens:
 Allows you to choose the color mode for the generated JSON. Default value is `HEX`. The plugin supports the following color modes:
 
 - `HEX` — HEX color format. Could be converted into `HEXA` if the color has an alpha channel.
-- `RGBA CSS` — RGBA color format in CSS syntax, e.g. `rgba(0, 0, 0, 0.5)`.
+- `RGBA CSS` — RGBA color format in CSS syntax, e.g. `rgba(0, 0, 0, 0.5)`. When alpha is `1`, the output is `rgb(r, g, b)` (no alpha channel).
 - `RGBA Object` — RGBA color format in object syntax, e.g. `{ r: 0, g: 0, b: 0, a: 0.5 }`.
 - `HSLA CSS` — HSLA color format in CSS syntax, e.g. `hsla(0, 0%, 0%, 0.5)`.
 - `HSLA Object` — HSLA color format in object syntax, e.g. `{ h: 0, s: 0, l: 0, a: 0.5 }`.
@@ -226,16 +226,28 @@ If the format is `DTCG`:
 
 ### Include Figma metadata
 
-Is `off` by default. Allows you to include Figma metadata like `styleId`, `variableId`, etc. into the generated JSON. It will be added to the `$extensions` object.
+Is `off` by default. Allows you to include Figma metadata like `variableId`, `codeSyntax`, etc. into the generated JSON. It is merged into the existing `$extensions` object alongside `mode`.
 
 ```json
-"figma": {
-  "codeSyntax": {},
-  "variableId": "VariableID:1:4",
-  "collection": {
-    "id": "VariableCollectionId:1:3",
-    "name": "Primitives",
-    "defaultModeId": "1:0"
+"button": {
+  "background": {
+    "type": "color",
+    "value": "{colors.primary.10}",
+    "$extensions": {
+      "mode": {
+        "light": "{colors.primary.10}",
+        "dark": "{colors.primary.90}"
+      },
+      "figma": {
+        "codeSyntax": {},
+        "variableId": "VariableID:1:4",
+        "collection": {
+          "id": "VariableCollectionId:1:3",
+          "name": "Primitives",
+          "defaultModeId": "1:0"
+        }
+      }
+    }
   }
 }
 ```
@@ -734,16 +746,19 @@ It follows the same pattern as used by [Cobalt](https://cobalt-ui.pages.dev/guid
 
 Unlike design tokens, Figma variables now [support only 4 types](https://www.figma.com/plugin-docs/api/VariableResolvedDataType) — `COLOR`, `BOOLEAN`, `FLOAT` and `STRING`. So, the plugin converts them into the corresponding types from the [Design Tokens specification](https://design-tokens.github.io/community-group/format/#types).
 
-| Figma type | Design Tokens type                                                                  |
-| ---------- | ----------------------------------------------------------------------------------- |
-| COLOR      | [color](https://design-tokens.github.io/community-group/format/#color)              |
-| BOOLEAN    | _boolean_ \*                                                                        |
-| FLOAT      | [dimension](https://design-tokens.github.io/community-group/format/#dimension) \*\* |
-| STRING     | _string_ \*                                                                         |
+| Figma type | Scope condition          | Design Tokens type                                                                  |
+| ---------- | ------------------------ | ----------------------------------------------------------------------------------- |
+| COLOR      | —                        | [color](https://design-tokens.github.io/community-group/format/#color)              |
+| BOOLEAN    | —                        | _boolean_ \*                                                                        |
+| FLOAT      | `FONT_WEIGHT` scope      | _string_ \*                                                                         |
+| FLOAT      | `OPACITY` scope (no %)   | _number_ \*                                                                         |
+| FLOAT      | `OPACITY` scope (with %) | _string_ (e.g. `"10%"`) \*                                                          |
+| FLOAT      | all other scopes         | [dimension](https://design-tokens.github.io/community-group/format/#dimension) \*\* |
+| STRING     | —                        | _string_ \*                                                                         |
 
 \* native JSON types. The specification doesn't restrict the type of the value, so it could be any JSON type. Also see [this issue](https://github.com/design-tokens/community-group/issues/120#issuecomment-1279527414).
 
-\*\* currently figma supports only the `FLOAT` type for dimensions, that could be used only for `px` values. So, the plugin converts `FLOAT` values into `dimension` type with `px` unit.
+\*\* Figma currently supports only `FLOAT` for numeric values used as dimensions, which map to `px` units. The plugin appends `px` to produce a valid dimension token.
 
 ---
 
